@@ -1,0 +1,29 @@
+name: Importar imágenes de trainlab.site
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [".github/workflows/import-images.yml"]
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Descargar imágenes y usar rutas propias
+        run: |
+          set -euo pipefail
+          grep -oE "https://trainlab\.site/[A-Za-z0-9._/?=-]+" index.html | sort -u > /tmp/urls.txt
+          cat /tmp/urls.txt
+          while read -r url; do
+            path="${url#https://trainlab.site/}"; path="${path%%\?*}"
+            mkdir -p "$(dirname "$path")"
+            curl -fsSL --retry 3 -A "Mozilla/5.0" -o "$path" "$url"
+          done < /tmp/urls.txt
+          sed -i 's#https://trainlab\.site/##g' index.html
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Copiar imágenes de la web al repositorio" || echo "Sin cambios"
+          git push
