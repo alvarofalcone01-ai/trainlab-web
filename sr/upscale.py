@@ -1,22 +1,14 @@
-import glob, os, cv2, numpy as np, torch
-from basicsr.archs.rrdbnet_arch import RRDBNet
+import os, cv2, torch
 from realesrgan import RealESRGANer
+from realesrgan.archs.srvgg_arch import SRVGGNetCompact
 torch.set_num_threads(os.cpu_count() or 4)
-model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
-up = RealESRGANer(scale=4, model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth',
-                  model=model, tile=256, tile_pad=12, pre_pad=0, half=False)
-jobs = [('sr/in/cohesiva.png', 'cohesiva', 1)]  # (path, name, prescale)
-for p in sorted(glob.glob('assets/d3/*.webp')) + ['assets/image-2.png', 'assets/image-3.png'] + sorted(glob.glob('media/*.png')):
-    jobs.append((p, os.path.splitext(os.path.basename(p))[0], 0.5))
+base = 'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/'
 os.makedirs('sr/out', exist_ok=True)
-for path, name, pre in jobs:
-    img = cv2.imread(path, cv2.IMREAD_COLOR)
-    if img is None:
-        print('skip', path); continue
-    if pre != 1:
-        img = cv2.resize(img, None, fx=pre, fy=pre, interpolation=cv2.INTER_AREA)
+img = cv2.imread('sr/in/cohesiva.png', cv2.IMREAD_COLOR)
+for s in (0.2, 0.4, 0.6):
+    model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
+    up = RealESRGANer(scale=4, model_path=[base + 'realesr-general-x4v3.pth', base + 'realesr-general-wdn-x4v3.pth'],
+                      dni_weight=[s, 1 - s], model=model, tile=0, half=False)
     out, _ = up.enhance(img, outscale=4)
-    h, w = out.shape[:2]; s = min(1.0, 1800 / max(h, w))
-    if s < 1: out = cv2.resize(out, (int(w * s), int(h * s)), interpolation=cv2.INTER_AREA)
-    cv2.imwrite(f'sr/out/{name}.png', out)
-    print(name, img.shape, '->', out.shape, flush=True)
+    cv2.imwrite(f'sr/out/cohesiva-general-{int(s*10)}.png', out)
+    print(s, out.shape, flush=True)
