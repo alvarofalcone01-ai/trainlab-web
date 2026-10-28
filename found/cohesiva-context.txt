@@ -1,0 +1,2 @@
+found/home.html:  vendajes:[['rigido','Tape rígido'],['cohesiva','Venda que se adhiere sobre sí misma'],['pretape','Capa previa al vendaje'],['pvc','Sujetar medias o accesorios'],['general','Quiero comparar tipos']],
+found/home.html: const matchUse={rigido:/rigido/,cohesiva:/cohesiv|co fix/,pretape:/pre tape/,pvc:/pvc/,agua:/resisten.*agua|waterproof/,tijeras:/tijera/,botella:/botella/,adulto:/bucal adulto/,junior:/bucal junior/,gel:/gel pack/,masaje:/masaje/};
