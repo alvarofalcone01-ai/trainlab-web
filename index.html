@@ -1100,6 +1100,98 @@ select{-webkit-appearance:none;appearance:none;background-image:url("data:image/
 /* hero: even line spacing with room for the accent on ENTRENÁ */
 .hero h1{line-height:1.02}
 
+/* ===================== Light bands (v6): brighter page, dark kept for hero, lab and footer ===================== */
+:root{--l-bg:#f3f5f0;--l-bg2:#ffffff;--l-ink:#10140f;--l-muted:#545d50;--l-line:#dde2d6;--l-green:#2f7a1c}
+#productos,#como-comprar,#en-accion,#envios{
+ --ink:var(--l-ink);--muted:var(--l-muted);--line:var(--l-line);--light:#e9ede4;--panel:var(--l-bg);
+ --dark:#ffffff;--dark-raised:#ffffff;--dark-muted:var(--l-muted);--dark-line:var(--l-line);--green-ink:var(--l-green);
+ color:var(--l-ink);color-scheme:light}
+#productos :is(h2,h3,h4),#como-comprar :is(h2,h3),#en-accion h2,#envios h2{color:var(--l-ink)}
+#productos .eyebrow,#como-comprar .eyebrow,#en-accion .eyebrow,#envios .eyebrow{color:var(--l-green)}
+
+/* Catalog: full-bleed light background (the section itself is width-limited) */
+#productos{background:var(--l-bg);box-shadow:0 0 0 100vmax var(--l-bg);clip-path:inset(0 -100vmax)}
+#productos .section-heading p,.catalog-count{color:var(--l-muted)}
+#productos .search-field{background:#fff;border-color:#d3d9cb;box-shadow:0 1px 2px #10140f0d}
+#productos .search-field input{color:var(--l-ink)}
+#productos .search-field input::placeholder{color:#7a8475}
+#productos .catalog-search label{color:var(--l-muted)}
+#productos .tl-assist{color:var(--l-muted)}
+#productos .tl-assist button{color:var(--l-green)}
+#product-grid>.product{background:#fff;border:1px solid var(--l-line);box-shadow:0 1px 2px #10140f0a,0 12px 32px -18px #1b2d1240}
+#product-grid>.product:hover{border-color:#43932b;box-shadow:0 2px 4px #10140f0f,0 24px 44px -20px #1b2d1259}
+.tile-photo.tl-cut,#product-grid .tile-photo.tl-cut{background:radial-gradient(60% 22% at 50% 84%,#c9d0c0 0%,transparent 70%),linear-gradient(180deg,#eef1ea 0%,#e3e8dc 100%)!important}
+#product-grid .tile-photo.tl-cut{-webkit-filter:none;filter:none}
+#product-grid>.product .product-tile:after{display:none}
+#product-grid .tile-cat{color:var(--l-green)}
+#product-grid .tile-name,#product-grid .tile-price{color:var(--l-ink)}
+#product-grid .tile-more{color:var(--l-green);border-top-color:var(--l-line)}
+#product-grid .tile-offer s{color:#7a8475}
+#product-grid .tile-offer:not([hidden]){color:#fff;background:#43932b}
+
+/* How to buy */
+#como-comprar{background:#fff}
+#como-comprar .section-heading p{color:var(--l-muted)}
+.tl-steps li{background:var(--l-bg);border-color:var(--l-line)}
+.tl-steps li:after{background:radial-gradient(closest-side,#43932b22,transparent)}
+.tl-steps p{color:var(--l-muted)}
+
+/* Videos */
+#en-accion.tl-reels{background:radial-gradient(50% 60% at 50% 70%,#43932b1f,transparent 70%),linear-gradient(180deg,var(--l-bg),#e9eee4)}
+#en-accion.tl-reels:before{background:linear-gradient(#10140f0a 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,#10140f0a 1px,transparent 1px) 0 0/48px 48px}
+#en-accion .section-heading p{color:var(--l-muted)}
+#en-accion .tl-phone{box-shadow:0 40px 70px -28px #10140f99,0 0 0 1px #000,inset 0 0 0 1.5px #ffffff26,inset 0 0 0 5px #050605}
+#en-accion .tl-phone figcaption strong{color:#fff}
+#en-accion .tl-phone figcaption span{color:#c3cabf}
+#en-accion .tl-phone .btn{color:#fff;border-color:#ffffff33}
+#en-accion .tl-phone .btn:hover{border-color:#43932b;background:#ffffff0f}
+
+/* Wholesale: brand-green band */
+.tl-wholesale{background:#43932b;color:#08100a}
+.tl-wholesale .tl-wh-label{color:#08100a}
+.tl-wholesale .tl-wh-label span{color:#fff}
+.tl-wholesale .tl-wh-text{color:#10220c}
+.tl-wholesale .tl-wh-text strong{color:#08100a}
+.tl-wholesale .btn.primary,.tl-wholesale .btn.primary:visited{background:#0b0e0a;border-color:#0b0e0a;color:#fff}
+.tl-wholesale .btn.primary:hover{background:#1b2117;border-color:#1b2117;color:#fff}
+
+/* Shipping, payments and FAQ */
+#envios.tl-buy{background:var(--l-bg)}
+#envios .tl-perks svg{background:#43932b14;border-color:#cfd8c6;color:var(--l-green)}
+#envios .tl-perks strong{color:var(--l-ink)}
+#envios .tl-perks small{color:var(--l-muted)}
+#envios details{border-color:var(--l-line)}
+#envios summary{color:var(--l-ink)}
+#envios summary:after{color:var(--l-green)}
+#envios details p{color:var(--l-muted)}
+#envios details[open] summary{color:var(--l-green)}
+
+/* Product sheet: light, to match the catalog */
+.product-dialog.tl-pd{--ink:var(--l-ink);--muted:var(--l-muted);--line:var(--l-line);--green-ink:var(--l-green);--dark:#08100a;background:#fff;border-color:#10140f14;color:var(--l-ink);color-scheme:light;box-shadow:0 40px 120px #0a120866}
+.product-dialog.tl-pd::backdrop{background:#0a0d09a6}
+.tl-pd .product-summary h3,.tl-pd .product-pricing .price{color:var(--l-ink)}
+.tl-pd .product-gallery,.tl-pd .gallery-controls button,.tl-pd .gallery-controls button[aria-pressed="true"]{background:#f1f3ee}
+.tl-pd .tl-pd-chip{background:#43932b1a;color:var(--l-green)}
+.tl-pd .availability{background:#e3f1dc;color:#2a6b19}
+.tl-pd .variant-fields label{color:var(--l-ink)}
+.tl-pd .variant-fields select{background:#fff;color:var(--l-ink);border-color:#d3d9cb;color-scheme:light}
+.tl-pd .variant-thumbnails button{background:#f1f3ee;color:var(--l-ink)}
+.tl-pd .variant-selection{color:var(--l-muted)!important}
+.tl-pd [data-kit-add]{color:#08100a}
+.tl-pd .actions .btn{border-color:#cfd6c7;color:var(--l-ink)}
+.tl-pd .actions .btn:hover{border-color:#43932b;background:#43932b0f;color:var(--l-ink)}
+.tl-pd .detail-view-kit{color:var(--l-ink);border-color:#cfd6c7}
+.tl-pd .tl-pd-trust li{background:#f4f6f1;border-color:var(--l-line);color:var(--l-ink)}
+.tl-pd .tl-pd-trust svg{color:var(--l-green)}
+.tl-pd .product-guide,.tl-pd .product-guide details{border-color:var(--l-line)}
+.tl-pd .product-guide summary{color:var(--l-ink)}
+.tl-pd .product-guide summary:after{color:var(--l-green)}
+.tl-pd .product-guide details p,.tl-pd .product-content>p:first-child,.tl-pd .price-note,.tl-pd .original-price{color:var(--l-muted)}
+.tl-pd .detail-kit-status{color:var(--l-green)}
+.tl-pd .detail-toolbar button{background:#ffffffcc!important;color:var(--l-ink)!important;box-shadow:0 1px 3px #10140f26,inset 0 0 0 1px #10140f14!important}
+.tl-pd .detail-toolbar button:hover{background:#fff!important}
+@media(max-width:700px){.tl-pd .tl-pd-bar{background:#fffffff2;border-top-color:var(--l-line)}.tl-pd .tl-pd-bar b{color:var(--l-ink)}.tl-pd .tl-pd-bar button{color:#08100a}}
+
 </style>
 
 
