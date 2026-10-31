@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /gestion/
+
+Sitemap: https://trainlab.site/sitemap.xml
