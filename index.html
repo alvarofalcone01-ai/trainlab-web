@@ -29,6 +29,8 @@
 <meta name="twitter:image" content="https://trainlab.site/media/web/og-trainlab.jpg">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Store","@id":"https://trainlab.site/#store","name":"TRAINLAB","url":"https://trainlab.site/","logo":"https://trainlab.site/icon-512.png","image":"https://trainlab.site/media/web/og-trainlab.jpg","telephone":"+54 9 341 610-2574","address":{"@type":"PostalAddress","addressLocality":"Rosario","addressRegion":"Santa Fe","addressCountry":"AR"},"areaServed":"Rosario y alrededores","sameAs":["https://www.instagram.com/trainlab.ros/"],"paymentAccepted":"Efectivo, transferencia, Mercado Pago, tarjeta de débito y crédito"},{"@type":"WebSite","@id":"https://trainlab.site/#web","url":"https://trainlab.site/","name":"TRAINLAB","inLanguage":"es-AR"},{"@type":"Product","name":"Nasal Strips","description":"Una tira de aplicación externa que puede ayudar a mejorar el flujo de aire nasal y la comodidad al respirar por la nariz. Un pequeño detalle para acompañar tu rutina.","image":"https://trainlab.site/media/web/photo-assets-image-2-png.webp","brand":{"@type":"Brand","name":"TRAINLAB"},"offers":{"@type":"Offer","priceCurrency":"ARS","price":"12000.00","availability":"https://schema.org/InStock","url":"https://trainlab.site/#productos","seller":{"@id":"https://trainlab.site/#store"}}},{"@type":"Product","name":"Nasal Strips Combo x3","description":"Una tira de aplicación externa que puede ayudar a mejorar el flujo de aire nasal y la comodidad al respirar por la nariz. Un pequeño detalle para acompañar tu rutina.","image":"https://trainlab.site/media/web/photo-media-61235c51-261b-467e-87a5-d6d9654a0ad8-png.webp","brand":{"@type":"Brand","name":"TRAINLAB"},"offers":{"@type":"Offer","priceCurrency":"ARS","price":"30600.00","availability":"https://schema.org/InStock","url":"https://trainlab.site/#productos","seller":{"@id":"https://trainlab.site/#store"}}},{"@type":"Product","name":"D3 AST - Sport Tape","description":"Tape deportivo rígido D3 AST de algodón para técnicas de vendaje.","image":"https://trainlab.site/media/web/photo-assets-d3-753797efefff1156-webp.webp","brand":{"@type":"Brand","name":"D3"},"offers":{"@type":"Offer","priceCurrency":"ARS","price":"6400.00","availability":"https://schema.org/InStock","url":"https://trainlab.site/#productos","seller":{"@id":"https://trainlab.site/#store"}}},{"@type":"Product","name":"D3 K5 Kinesiology Tape","description":"Cinta kinesiológica elástica D3 K5 de 5 cm × 5 m, disponible en varios colores.","image":"https://trainlab.site/media/web/photo-assets-d3-b2226800c6480ea9-webp.webp","brand":{"@type":"Brand","name":"D3"},"offers":{"@type":"Offer","priceCurrency":"ARS","price":"12400.00","availability":"https://schema.org/InStock","url":"https://trainlab.site/#productos","seller":{"@id":"https://trainlab.site/#store"}}},{"@type":"Product","name":"D3 Pre Tape","description":"Pre tape D3 de 70 mm × 27 m, para colocar como capa previa al vendaje adhesivo.","image":"https://trainlab.site/media/web/photo-assets-d3-578024cc44b86db7-webp.webp","brand":{"@type":"Brand","name":"D3"},"offers":{"@type":"Offer","priceCurrency":"ARS","price":"8300.00","availability":"https://schema.org/InStock","url":"https://trainlab.site/#productos","seller":{"@id":"https://trainlab.site/#store"}}},{"@type":"Product","name":"D3 Venda Cohesiva 5x5","description":"Venda elástica cohesiva D3 negra de 5 cm × 5 m. Se adhiere sobre sí misma, sin pegarse a la piel ni al vello.","image":"https://trainlab.site/media/web/photo-assets-d3-cohesiva-5x5-webp.webp","brand":{"@type":"Brand","name":"D3"},"offers":{"@type":"Offer","priceCurrency":"ARS","price":"6650.00","availability":"https://schema.org/InStock","url":"https://trainlab.site/#productos","seller":{"@id":"https://trainlab.site/#store"}}}]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-10K5DPQJL1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-10K5DPQJL1");</script>
 </head>
 <body>
 
@@ -981,5 +983,35 @@ $$('.product-dialog').forEach(d=>{
 
 </script>
 <!--tl-end-->
+<script>
+/* Google Analytics 4 events for TRAINLAB (only active when a measurement ID is configured). */
+(()=>{
+if(typeof gtag!=='function'||typeof TRAINLAB==='undefined')return;
+const rows=new Map((TRAINLAB.catalog||[]).map(r=>[r.id,r]));
+const prod=id=>TRAINLAB.products.find(p=>p.id===id);
+const priceOf=p=>{const ids=[p.id,...(p.variants||[]).map(v=>v.inventoryId)];const ps=ids.map(i=>rows.get(i)).filter(r=>r&&!r.archived&&r.priceCents).map(r=>r.priceCents/100);return ps.length?Math.min(...ps):undefined};
+const item=p=>({item_id:p.id,item_name:p.name,item_category:p.category,price:priceOf(p),quantity:1});
+const send=(name,params)=>{try{gtag('event',name,params||{})}catch{}};
+// product sheet opened
+if(typeof openProductDetails==='function'){const o=openProductDetails;openProductDetails=function(id,...r){const p=prod(id);if(p)send('view_item',{currency:'ARS',value:priceOf(p),items:[item(p)]});return o.call(this,id,...r)}}
+// added to cart
+if(typeof addProductToKit==='function'){const a=addProductToKit;addProductToKit=function(p,...r){send('add_to_cart',{currency:'ARS',value:priceOf(p),items:[item(p)]});return a.call(this,p,...r)}}
+// cart opened
+if(typeof openShoppingPanel==='function'){const s=openShoppingPanel;openShoppingPanel=function(kind,...r){send(kind==='kit'?'view_cart':'assistant_open',{});return s.call(this,kind,...r)}}
+// clicks: WhatsApp checkout / contact, Instagram, wholesale
+document.addEventListener('click',e=>{
+ const a=e.target.closest('a,button');if(!a)return;
+ const href=a.getAttribute('href')||'';
+ if(a.id==='kit-send'){let total;try{total=[...kitLines.values()].reduce((s,l)=>{const p=prod(l.productId);return s+(p?(priceOf(p)||0)*l.quantity:0)},0)}catch{}send('begin_checkout',{currency:'ARS',value:total,method:'whatsapp'});return}
+ if(a.id==='wholesale-start'){send('generate_lead',{lead_type:'por_mayor'});return}
+ if(/wa\.me|whatsapp/i.test(href)||a.dataset.channel==='whatsapp'||a.classList.contains('tl-wa')){send('contact_whatsapp',{place:a.className.split(' ')[0]||a.id||'link'});return}
+ if(/instagram\.com/i.test(href)||a.dataset.channel==='instagram'){send('contact_instagram',{});return}
+},true);
+// catalog search (debounced)
+const q=document.getElementById('product-search');let t=0;
+q?.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>{const v=q.value.trim();if(v.length>=3)send('search',{search_term:v})},1200)});
+})();
+
+</script>
 </body>
 </html>
