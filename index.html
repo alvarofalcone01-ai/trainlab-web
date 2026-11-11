@@ -995,6 +995,7 @@ $$('.product-dialog').forEach(d=>{
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script>
 /* TRAINLAB v3 · motion
    GSAP from CDN with `defer`: one hero entrance and the add-to-cart feedback. Native scroll, no scroll effects.
@@ -1083,6 +1084,81 @@ $$('.product-dialog').forEach(d=>{
   if (document.readyState !== 'loading') wait(0); else document.addEventListener('DOMContentLoaded', function () { wait(0); });
 })();
 
+</script>
+<style id="tl-scroll-style">
+/* apple-design: feedback lives on the press, and it is instant.
+   `scale` is its own property, so it composes with any hover transform already set. */
+.btn:active,.nav-cta:active,.tl-cart:active,.menu:active,.tl-qadd:active,.tl-path:active,.shopping-entry:active,.tl-wa:active,.tl-rv:active,.wa-float:active,.kit-dock:active,.tl-rev-btn:active,.tl-combine-add:active,.gallery-controls button:active,.tl-sound:active,.tl-expand:active,.hero-feature-card:active,[data-kit-add]:active,#kit-send:active{scale:.97;transition-duration:100ms;transition-timing-function:ease-out}
+#product-grid .product-tile:active{scale:.985;transition-duration:100ms;transition-timing-function:ease-out}
+/* apple-design: translucent chrome turns solid when the visitor asks for less transparency */
+@media (prefers-reduced-transparency: reduce){
+  .header{background:#020101!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  .product-dialog::backdrop,.tl-drawer-bg{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+@media (prefers-reduced-motion: reduce){
+  .btn:active,.nav-cta:active,.tl-cart:active,.menu:active,.tl-qadd:active,.tl-path:active,.shopping-entry:active,#product-grid .product-tile:active{scale:none}
+}
+</style>
+<script>
+/* TRAINLAB · scroll motion, tuned with the apple-design skill
+   - Only compositor properties move (transform, opacity): no blur, no layout.
+   - Critically damped feel: fast start, soft settle, no overshoot.
+   - Reduced motion gets short opacity cross-fades instead of slides, parallax or scale.
+   - Only things below the first screen start hidden, so the page is complete at rest;
+     without GSAP nothing is hidden and nothing moves. */
+document.addEventListener('DOMContentLoaded',function(){
+  var gsap=window.gsap,ST=window.ScrollTrigger;
+  if(!gsap||!ST)return;
+  gsap.registerPlugin(ST);
+  ST.config({ignoreMobileResize:true});
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+  var EASE='power3.out'; /* closest GSAP curve to a critically damped spring */
+  var below=function(el){return el.getBoundingClientRect().top>innerHeight*0.92};
+
+  function reveal(targets,opts){
+    opts=opts||{};
+    var els=(typeof targets==='string'?$$(targets):targets).filter(below);
+    if(!els.length)return;
+    var from={opacity:0},to={opacity:1,clearProps:'transform,opacity'};
+    if(reduce){to.duration=0.3;to.ease='none';to.stagger=0}
+    else{from.y=opts.y||40;to.y=0;if(opts.scale){from.scale=opts.scale;to.scale=1}to.duration=opts.d||0.9;to.ease=EASE;to.stagger=opts.stagger||0.07;from.force3D=true}
+    gsap.set(els,from);
+    ST.batch(els,{start:opts.start||'top 90%',once:true,onEnter:function(batch){gsap.to(batch,Object.assign({},to))}});
+  }
+
+  if(!reduce){
+    /* Hero: the copy drifts up and the showcase recedes as you leave it */
+    var hero=document.querySelector('.hero');
+    if(hero){
+      var leave={trigger:hero,start:'top top',end:'bottom top',scrub:0.5};
+      gsap.to('.hero-main',{yPercent:-10,opacity:.3,ease:'none',force3D:true,scrollTrigger:leave});
+      gsap.to('.hero-media',{scale:.94,yPercent:5,opacity:.55,ease:'none',force3D:true,scrollTrigger:leave});
+      gsap.to('.hero-feature',{yPercent:-14,ease:'none',force3D:true,scrollTrigger:leave});
+    }
+    /* Closing headline grows into place with the scroll */
+    var close=document.querySelector('.tl-close h2');
+    if(close)gsap.fromTo(close,{scale:.9},{scale:1,ease:'none',force3D:true,scrollTrigger:{trigger:'.tl-close',start:'top bottom',end:'center center',scrub:0.5}});
+  }
+
+  reveal('main h2, .tl-close h2',{y:44});
+  reveal('#productos .section-heading > p, .tl-reels .section-heading p, .tl-how .section-heading p, .tl-wh-head p, .tl-close p',{y:24});
+  reveal('.catalog-toolbar, .tl-assist',{y:20});
+  reveal('#product-grid .product-tile',{y:56,scale:.97,stagger:.08,start:'top 94%'});
+  reveal($$('.tl-reel-row .tl-screen'),{y:70,stagger:.1,d:1});
+  reveal('.tl-steps li',{y:40,stagger:.1});
+  reveal('.tl-review',{y:32,scale:.98});
+  reveal('.tl-wh-side, #wholesale-start',{y:32,stagger:.08});
+  reveal('.tl-perks li',{y:24,stagger:.06,d:.8});
+  reveal('#envios details',{y:20,stagger:.05,d:.8});
+  reveal('.tl-close-act',{y:24});
+  /* the last lines of the page can never reach 90% of the screen: reveal them as soon as they peek in */
+  reveal('.tl-footer .tl-foot-row, .tl-footer .tl-legal',{y:24,stagger:.08,d:.8,start:'top bottom'});
+
+  var grid=document.getElementById('product-grid');
+  if(grid)new MutationObserver(function(){ST.refresh()}).observe(grid,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
+  addEventListener('load',function(){ST.refresh()});
+});
 </script>
 <!--tl-end-->
 <script>
