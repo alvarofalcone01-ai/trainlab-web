@@ -1160,6 +1160,11 @@ document.addEventListener('DOMContentLoaded',function(){
   addEventListener('load',function(){ST.refresh()});
 });
 </script>
+<style id="tl-pd-hover">
+/* Ficha de producto: "Agregar al carrito" es un botón con borde; al pasar el cursor
+   se ilumina apenas en lugar de rellenarse de lima con el texto claro encima. */
+html body .tl-pd .btn.secondary[data-kit-add]:hover{background:#f3f1e812!important;border-color:var(--v-bone)!important;color:var(--v-bone)!important}
+</style>
 <!--tl-end-->
 <script>
 /* Google Analytics 4 events for TRAINLAB (only active when a measurement ID is configured). */
